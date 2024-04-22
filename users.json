@@ -1,1 +1,15 @@
-{}
+{
+    "admin": {
+        "id": 1,
+        "name": "admin",
+        "password_hash": "pbkdf2:sha256:600000$QqrwdtJGNhbhMFFE$fee04b3c59b85d83906d4c46a1415e5c07975f540f7e8a3e1ad7169186753966",
+        "files": [
+            {
+                "filename": "4381_quiz_5.txt",
+                "path": "uploads/admin_uploads/4381_quiz_5.txt",
+                "sha256": "9d015f7c4ab42478a46d8eadace1c07bd7443cc72e7e88566720b7474aac5226",
+                "md5": "ce2d00b73a1fe525c306956d78d49b63"
+            }
+        ]
+    }
+}

@@ -1,0 +1,22 @@
+
+--> Web security (04/17/24): 
+	- what is INTERNET?	
+		internet is just bunch of nodes connected (wireless, wired).
+		refer to the diagram on internet protocol in the wiki: https://en.wikipedia.org/wiki/Internet .
+
+	- what are the security issues?
+		Connections could be intercepted. for example messages.
+		routing is an issue. (hijacking)
+
+	- what prevents routing tables from modifyign?
+	
+	- what are x.509 certificates, 
+		they are just numbers, can be modify, seen, as they are used by browsers. to use a certificate we need to trust it.
+	- what prevents from changing them?
+		nothing. they are big numbers so chances of finding collisions are very low
+	- Issues by certificate authority, which can be anybody.
+
+- questions from prev quizzes
+- certificates
+- questions about assignments
+- 

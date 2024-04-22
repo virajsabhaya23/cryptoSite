@@ -1,20 +1,17 @@
-/* Basic reset */
 body, h1, form, div, p {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Overall body styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     background-color: #f4f4f4;
     color: #333;
     line-height: 1.6;
     padding: 20px;
 }
 
-/* Header styles */
 header {
     background-color: #444;
     color: #fff;
@@ -22,41 +19,41 @@ header {
     padding: 10px 0;
 }
 
-/* Main content area */
 main {
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Form styles */
 form {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="submit"] {
+select, button {
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
     font-size: 16px;
 }
 
 input[type="submit"] {
-    background-color: #5C67F2;
+    background-color: #444;
     color: white;
     cursor: pointer;
 }
 
 input[type="submit"]:hover {
-    background-color: #4a54e1;
+    background-color: #f0f0f0;
+    color: black;
+}
+a {
+    color: rgb(34, 135, 223);   /*dark sky blue*/
+    text-decoration: none;
+    margin-right: 10px;
+}
+a:hover {
+    text-decoration: underline;
 }
 
 /* Link and navigational styles */
@@ -73,16 +70,8 @@ nav ul li {
 .flash {
     padding: 10px;
     background-color: #f2dede;
-    color: #a94442;
+    color: rgba(178, 14, 14, 0.814);
     margin-bottom: 10px;
-    border-radius: 4px;
-    border: 1px solid #dce0e0;
-}
-
-/* Footer styles */
-footer {
-    text-align: center;
-    margin-top: 20px;
 }
 
 /* Paragraph and text spacing */
