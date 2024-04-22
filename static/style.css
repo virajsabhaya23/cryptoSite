@@ -55,8 +55,6 @@ a {
 a:hover {
     text-decoration: underline;
 }
-
-/* Link and navigational styles */
 nav ul {
     list-style: none;
 }
@@ -66,7 +64,7 @@ nav ul li {
     margin-right: 10px;
 }
 
-/* Flash message styling */
+
 .flash {
     padding: 10px;
     background-color: #f2dede;
@@ -74,7 +72,6 @@ nav ul li {
     margin-bottom: 10px;
 }
 
-/* Paragraph and text spacing */
 p {
     margin-top: 10px;
 }

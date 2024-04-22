@@ -12,13 +12,16 @@
         {% for message in get_flashed_messages() %}
             <div class="flash">{{ message }}</div>
         {% endfor %}
+
         <h1>Welcome, {{ name }}!</h1>
         <div>
-            <p>Change password? <a href="{{ url_for('modify_pwd') }}">Modify here</a>.</p>
-            <p>Logout <a href="{{ url_for('logout') }}">Logout</a>.</p>
-            <p>Delete Account? <a href="{{ url_for('delete_account') }}">Delete Account</a>.</p>
-            <p>Upload a file: <a href="{{ url_for('upload_file') }}">Upload File</a></p>
+            <button onclick="location.href='{{ url_for('modify_pwd') }}'" class="link-button">Change Password</button> 
+            <button onclick="location.href='{{ url_for('logout') }}'" class="link-button">Logout</button> 
+            <button onclick="if (confirm('Are you sure you want to delete your account?')) location.href='{{ url_for('delete_account') }}'" class="link-button">Delete Account</button> 
+            <button onclick="location.href='{{ url_for('upload_file') }}'" class="link-button">Upload File</button> 
+            <button onclick="location.href='{{ url_for('generate_key') }}'" class="link-button">Generate New Key</button> 
         </div>
+        
         <h2>Your Files:</h2>
         <ul>
             {% for file in files %}

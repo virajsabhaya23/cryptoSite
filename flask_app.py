@@ -12,6 +12,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.fernet import Fernet
 from os import urandom
 # from cryptoSite_utils import *
 
@@ -200,7 +201,8 @@ def download_file(filename):
     file_info = next((file for file in user_files if file['filename'] == filename), None)
     if file_info:
         file_path = file_info['path']
-        return send_from_directory(directory = os.path.dirname(file_path), filename=os.path.basename(file_path))
+        directory, filename = os.path.split(file_path)
+        return send_from_directory(directory, filename, as_attachment=True)
     else:
         flash('File not found.')
         return redirect(url_for('index'))
@@ -226,34 +228,10 @@ def delete_file(filename):
 @app.route('/generate_key', methods=['GET'])
 def generate_key():
     start_time = time.time()
-    user_id = session['user_id']
-    users = load_users()
-    user_keys = users[user_id].get('keys', [])
-    if len(user_keys) >= 20:
-        flash('Maximum number of keys reached.')
-        return redirect(url_for('index'))
-
-    # Generate a new RSA key pair
-    key = rsa.generate_private_key(
-        public_exponent=65537,
-        key_size=2048,
-        backend=default_backend()
-    )
-    private_key = key.private_bytes(
-        encoding=serialization.Encoding.PEM,
-        format=serialization.PrivateFormat.PKCS8,
-        encryption_algorithm=serialization.NoEncryption()
-    )
-    public_key = key.public_key().public_bytes(
-        encoding=serialization.Encoding.PEM,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo
-    )
-    user_keys.append({'private_key': private_key.decode(), 'public_key': public_key.decode()})
-    users[user_id]['keys'] = user_keys
-    save_users(users)
+    keys = [Fernet.generate_key().decode() for _ in range(20)]
     elapsed_time = time.time() - start_time
-    flash(f'Key generated in {elapsed_time:.2f} seconds.')
-    return redirect(url_for('index'))
+    flash(f'Key generated in {elapsed_time:.6f} seconds.')
+    return render_template('display_keys.html', keys=keys)
 
 ######### HASHING #########
 @app.route('/hash_file/<filename>', methods=['GET'])
