@@ -1,3 +1,8 @@
+"""
+Viraj Sabhaya
+ID: 1001828871
+"""
+
 import hashlib
 import json
 import os
@@ -21,7 +26,6 @@ app = Flask(__name__)
 app.secret_key = 'this_is_my_secret_key'
 app.config['MAX_CONTENT_LENGTH'] = 1024*1024
 first_request = True
-MAX_FILE_SIZE = 1024 * 1024
 
 ################################# DATABASE #################################
 # DATABASE_URL = "postgresql://cryptosite_vs_8871_user:HSx0mek0EG4evebmrhhFluaepf35dVh4@dpg-coi3gcol5elc73d16d80-a.oregon-postgres.render.com/cryptosite_vs_8871"
@@ -62,6 +66,7 @@ def clear_session():
         first_request = False
 
 ################################# ERROR HANDLING #################################
+# this shows the error message instead of blank error message
 @app.errorhandler(413)
 def too_large(e):
     return "Maximum file size to upload is 1 MB", 413
@@ -228,6 +233,7 @@ def delete_file(filename):
 @app.route('/generate_key', methods=['GET'])
 def generate_key():
     start_time = time.time()
+    # Generate 20 Fernet keys, decoding them to strings for easier handling
     keys = [Fernet.generate_key().decode() for _ in range(20)]
     elapsed_time = time.time() - start_time
     flash(f'Key generated in {elapsed_time:.6f} seconds.')
@@ -237,8 +243,11 @@ def generate_key():
 @app.route('/hash_file/<filename>', methods=['GET'])
 def hash_file(filename):
     start_time = time.time()
+    # Retrieve the username from session
     username = session['user_name']
+    # Load user data from the database
     users = load_users()
+    # cacess the user's files from their data
     user_files = users[username].get('files', [])
     file_info = next((file for file in user_files if file['filename'] == filename), None)
 
@@ -249,11 +258,12 @@ def hash_file(filename):
     file_path = file_info['path']
     with open(file_path, 'rb') as f:
         file_data = f.read()
-
+        
+    # Compute SHA256 and MD5 hashes of the file
     sha256_hash = hashlib.sha256(file_data).hexdigest()
     md5_hash = hashlib.md5(file_data).hexdigest()
 
-    # Save hashes to file metadata
+    # Save hashes to file info data users.json tbs
     file_info['sha256'] = sha256_hash
     file_info['md5'] = md5_hash
     save_users(users)
@@ -297,11 +307,13 @@ def encrypt_file(filename):
     with open(file_path, 'rb') as f:
         data = f.read()
 
+    # Get the encryption method from the form submission
     encryption_method = request.form.get('encryption_method')
     if not encryption_method:
         flash('No encryption method selected.')
         return redirect(url_for('index'))
-
+    
+    # which encryption algo to use?
     if encryption_method == 'AES-192':
         key = urandom(24)
         iv = urandom(16)
@@ -314,6 +326,7 @@ def encrypt_file(filename):
         flash('Invalid encryption method.')
         return redirect(url_for('index'))
 
+    # Set up cipher and encrypt the data
     cipher = Cipher(algorithm, modes.CBC(iv), backend=default_backend())
     encryptor = cipher.encryptor()
     padder = padding.PKCS7(algorithm.block_size).padder()
@@ -355,6 +368,7 @@ def decrypt_file(filename):
     with open(file_path, 'rb') as f:
         encrypted_data = f.read()
 
+    # Retrieve the key and IV and determine the encryption method
     key = bytes.fromhex(file_info['key'])
     iv = bytes.fromhex(file_info['iv'])
     encryption_method = file_info.get('method')
@@ -367,6 +381,7 @@ def decrypt_file(filename):
         flash('Encryption method not supported for decryption.')
         return redirect(url_for('index'))
 
+    # decrypting
     cipher = Cipher(algorithm, modes.CBC(iv), backend=default_backend())
     decryptor = cipher.decryptor()
     decrypted_padded_data = decryptor.update(encrypted_data) + decryptor.finalize()
